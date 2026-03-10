@@ -1,0 +1,309 @@
+/* Styling untuk keseluruhan halaman */
+body {
+    font-family: 'Share Tech Mono', 'Courier New', monospace;
+    background: linear-gradient(45deg, #0a0f0f 0%, #1a1f2f 50%, #0a0f0f 100%);
+    color: #00ff9d;
+    margin: 0;
+    padding: 20px;
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+    overflow-x: hidden;
+}
+
+/* Efek grid cyberpunk di background */
+body::before {
+    content: "";
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-image: 
+        linear-gradient(rgba(0, 255, 157, 0.1) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(0, 255, 157, 0.1) 1px, transparent 1px);
+    background-size: 50px 50px;
+    pointer-events: none;
+    z-index: 0;
+}
+
+/* Efek glitch di background */
+body::after {
+    content: "";
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: radial-gradient(circle at 50% 50%, rgba(255, 0, 255, 0.1) 0%, transparent 50%);
+    pointer-events: none;
+    z-index: 0;
+    animation: pulseGlow 4s ease-in-out infinite;
+}
+
+/* Container utama */
+.card {
+    max-width: 600px;
+    margin: 20px auto;
+    background: rgba(10, 15, 15, 0.95);
+    backdrop-filter: blur(5px);
+    padding: 40px;
+    border-radius: 0;
+    box-shadow: 
+        0 0 30px rgba(0, 255, 157, 0.3),
+        0 0 0 2px #00ff9d,
+        inset 0 0 20px rgba(0, 255, 157, 0.2);
+    transition: all 0.3s ease;
+    border: 1px solid #00ff9d;
+    position: relative;
+    z-index: 1;
+    animation: flicker 3s infinite;
+}
+
+/* Efek scanline */
+.card::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: repeating-linear-gradient(
+        0deg,
+        rgba(0, 255, 157, 0.03) 0px,
+        rgba(0, 0, 0, 0.5) 1px,
+        transparent 2px
+    );
+    pointer-events: none;
+    z-index: 2;
+}
+
+/* Efek border glitch */
+.card::after {
+    content: "";
+    position: absolute;
+    top: -2px;
+    left: -2px;
+    width: calc(100% + 4px);
+    height: calc(100% + 4px);
+    background: linear-gradient(45deg, 
+        #00ff9d, #ff00ff, #00ffff, #ff00ff, #00ff9d);
+    background-size: 400%;
+    z-index: -1;
+    animation: borderGlitch 10s linear infinite;
+    opacity: 0.5;
+}
+
+.card:hover {
+    transform: scale(1.02) translateY(-5px);
+    box-shadow: 
+        0 0 50px rgba(0, 255, 157, 0.5),
+        0 0 0 3px #ff00ff,
+        inset 0 0 30px rgba(255, 0, 255, 0.3);
+    border-color: #ff00ff;
+}
+
+/* Header utama */
+h1 {
+    color: #00ff9d;
+    text-align: center;
+    font-size: 3em;
+    margin-bottom: 25px;
+    position: relative;
+    padding-bottom: 15px;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 5px;
+    text-shadow: 
+        0 0 10px #00ff9d,
+        2px 2px 0 #ff00ff,
+        -2px -2px 0 #00ffff;
+    animation: textFlicker 3s infinite;
+}
+
+h1::before {
+    content: "// ";
+    color: #ff00ff;
+    text-shadow: 0 0 10px #ff00ff;
+}
+
+h1::after {
+    content: " //";
+    color: #00ffff;
+    text-shadow: 0 0 10px #00ffff;
+}
+
+h1::after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 10%;
+    width: 80%;
+    height: 3px;
+    background: linear-gradient(90deg, 
+        transparent, 
+        #00ff9d, 
+        #ff00ff, 
+        #00ffff, 
+        transparent);
+    animation: scanline 4s linear infinite;
+}
+
+/* Paragraf */
+p {
+    font-size: 18px;
+    line-height: 1.8;
+    color: #00ff9d;
+    margin-bottom: 20px;
+    text-align: justify;
+    font-weight: 400;
+    text-shadow: 0 0 5px rgba(0, 255, 157, 0.5);
+    position: relative;
+    padding-left: 15px;
+    border-left: 2px solid #ff00ff;
+}
+
+/* Garis pemisah */
+hr {
+    border: none;
+    height: 1px;
+    background: linear-gradient(90deg, 
+        transparent, 
+        #00ff9d, 
+        #ff00ff, 
+        #00ffff, 
+        transparent);
+    margin: 30px 0;
+    position: relative;
+    overflow: visible;
+}
+
+hr::before {
+    content: "⧩";
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%);
+    background: #0a0f0f;
+    color: #ff00ff;
+    padding: 0 10px;
+    font-size: 20px;
+    text-shadow: 0 0 10px #ff00ff;
+}
+
+/* Greeting */
+small {
+    display: block;
+    font-style: normal;
+    text-align: center;
+    color: #00ffff;
+    margin-top: 20px;
+    font-size: 16px;
+    letter-spacing: 2px;
+    position: relative;
+    padding: 15px;
+    border: 1px dashed #ff00ff;
+    text-transform: uppercase;
+    animation: glowPulse 2s infinite;
+}
+
+small::before {
+    content: ">";
+    margin-right: 10px;
+    color: #ff00ff;
+    animation: blink 1s infinite;
+}
+
+small::after {
+    content: "<";
+    margin-left: 10px;
+    color: #ff00ff;
+    animation: blink 1s infinite reverse;
+}
+
+/* Animasi Keyframes */
+@keyframes borderGlitch {
+    0%, 100% { background-position: 0 0; }
+    50% { background-position: 300% 0; }
+}
+
+@keyframes textFlicker {
+    0%, 19%, 21%, 23%, 25%, 54%, 56%, 100% {
+        text-shadow: 
+            0 0 10px #00ff9d,
+            2px 2px 0 #ff00ff,
+            -2px -2px 0 #00ffff;
+    }
+    20%, 24%, 55% {
+        text-shadow: 
+            0 0 10px #00ff9d,
+            -2px -2px 0 #ff00ff,
+            2px 2px 0 #00ffff;
+    }
+}
+
+@keyframes flicker {
+    0%, 19%, 21%, 23%, 25%, 54%, 56%, 100% {
+        opacity: 1;
+    }
+    20%, 24%, 55% {
+        opacity: 0.8;
+    }
+}
+
+@keyframes scanline {
+    0% { left: -20%; }
+    100% { left: 120%; }
+}
+
+@keyframes pulseGlow {
+    0%, 100% { opacity: 0.3; }
+    50% { opacity: 0.6; }
+}
+
+@keyframes glowPulse {
+    0%, 100% { 
+        box-shadow: 0 0 10px #00ffff;
+        border-color: #00ffff;
+    }
+    50% { 
+        box-shadow: 0 0 20px #ff00ff;
+        border-color: #ff00ff;
+    }
+}
+
+@keyframes blink {
+    0%, 100% { opacity: 1; }
+    50% { opacity: 0; }
+}
+
+/* Efek tambahan untuk teks */
+p:nth-of-type(1) {
+    animation: glitchText 4s infinite;
+}
+
+@keyframes glitchText {
+    0%, 100% { transform: skew(0deg); }
+    95% { transform: skew(2deg); }
+    96% { transform: skew(-2deg); }
+    97% { transform: skew(0deg); }
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+    .card {
+        padding: 25px;
+        margin: 10px;
+    }
+    
+    h1 {
+        font-size: 2em;
+        letter-spacing: 3px;
+    }
+    
+    p {
+        font-size: 16px;
+    }
+}
