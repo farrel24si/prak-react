@@ -1,10 +1,18 @@
-import { Link } from "react-router-dom";
+import { NavLink } from "react-router-dom"; // 1. Perbaiki import ke NavLink
 import { MdSpaceDashboard } from "react-icons/md";
 import { IoIosList } from "react-icons/io";
 import { RiCustomerServiceFill } from "react-icons/ri";
 import { FaPlus } from "react-icons/fa";
 
 export default function Sidebar() {
+  // Fungsi styling untuk NavLink aktif
+  const menuClass = ({ isActive }) =>
+    `flex cursor-pointer items-center rounded-xl p-4 transition-all
+    ${isActive ? 
+        "text-hijau bg-green-200 font-extrabold" : 
+        "text-gray-600 hover:text-hijau hover:bg-green-200 hover:font-extrabold"
+    }`;
+
   return (
     <div className="flex min-h-screen w-90 flex-col bg-white p-10 shadow-lg">
       {/* Logo Section */}
@@ -21,28 +29,28 @@ export default function Sidebar() {
       <div className="mt-10 flex-1">
         <ul className="space-y-3">
           <li>
-            <Link
+            <NavLink
               to="/"
-              className="flex items-center rounded-xl p-4 font-medium text-gray-600 transition-all hover:bg-green-200 hover:text-hijau hover:font-extrabold cursor-pointer"
+              className={menuClass} // 2. Pastikan huruf kecil sesuai variabel
             >
               <MdSpaceDashboard className="mr-4 text-xl" /> Dashboard
-            </Link>
+            </NavLink>
           </li>
           <li>
-            <Link
-              to="/orders"
-              className="flex items-center rounded-xl p-4 font-medium text-gray-600 transition-all hover:bg-green-200 hover:text-hijau hover:font-extrabold cursor-pointer"
+            <NavLink
+              to="/order" // 3. Disarankan pakai huruf kecil
+              className={menuClass}
             >
               <IoIosList className="mr-4 text-xl" /> Orders
-            </Link>
+            </NavLink>
           </li>
           <li>
-            <Link
+            <NavLink
               to="/customers"
-              className="flex items-center rounded-xl p-4 font-medium text-gray-600 transition-all hover:bg-green-200 hover:text-hijau hover:font-extrabold cursor-pointer"
+              className={menuClass}
             >
               <RiCustomerServiceFill className="mr-4 text-xl" /> Customers
-            </Link>
+            </NavLink>
           </li>
         </ul>
       </div>
