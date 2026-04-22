@@ -8,9 +8,9 @@ export default function Sidebar() {
   // Fungsi styling untuk NavLink aktif
   const menuClass = ({ isActive }) =>
     `flex cursor-pointer items-center rounded-xl p-4 transition-all
-    ${isActive ? 
-        "text-hijau bg-green-200 font-extrabold" : 
-        "text-gray-600 hover:text-hijau hover:bg-green-200 hover:font-extrabold"
+    ${isActive ?
+      "text-hijau bg-green-200 font-extrabold" :
+      "text-gray-600 hover:text-hijau hover:bg-green-200 hover:font-extrabold"
     }`;
 
   return (
@@ -38,7 +38,7 @@ export default function Sidebar() {
           </li>
           <li>
             <NavLink
-              to="/order" // 3. Disarankan pakai huruf kecil
+              to="/orders" // 3. Disarankan pakai huruf kecil
               className={menuClass}
             >
               <IoIosList className="mr-4 text-xl" /> Orders
@@ -50,6 +50,21 @@ export default function Sidebar() {
               className={menuClass}
             >
               <RiCustomerServiceFill className="mr-4 text-xl" /> Customers
+            </NavLink>
+          </li>
+          <li>
+            <NavLink to="/error-400" className={menuClass}>
+              <span className="mr-4 text-xl font-bold text-red-500">!</span> Error 400
+            </NavLink>
+          </li>
+          <li>
+            <NavLink to="/error-401" className={menuClass}>
+              <span className="mr-4 text-xl font-bold text-red-500">!</span> Error 401
+            </NavLink>
+          </li>
+          <li>
+            <NavLink to="/error-403" className={menuClass}>
+              <span className="mr-4 text-xl font-bold text-red-500">!</span> Error 403
             </NavLink>
           </li>
         </ul>
@@ -70,7 +85,7 @@ export default function Sidebar() {
           </div>
           <img
             className="w-20 rounded-full ml-2 object-cover"
-            src="/img/image.png"
+            src="/img/image11.png"
             alt="footer avatar"
           />
         </div>
