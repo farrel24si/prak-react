@@ -1,3 +1,4 @@
+import { BsBasket } from "react-icons/bs"; 
 import { NavLink } from "react-router-dom"; // 1. Perbaiki import ke NavLink
 import { MdSpaceDashboard } from "react-icons/md";
 import { IoIosList } from "react-icons/io";
@@ -52,6 +53,18 @@ export default function Sidebar() {
               <RiCustomerServiceFill className="mr-4 text-xl" /> Customers
             </NavLink>
           </li>
+
+
+
+          <li>
+            <NavLink
+              to="/product"
+              className={menuClass}
+            >
+              <BsBasket className="mr-4 text-xl" /> Products
+            </NavLink>
+          </li>
+          
           <li>
             <NavLink to="/error-400" className={menuClass}>
               <span className="mr-4 text-xl font-bold text-red-500">!</span> Error 400
