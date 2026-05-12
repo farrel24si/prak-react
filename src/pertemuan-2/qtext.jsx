@@ -1,6 +1,6 @@
 export default function Quotetext(){
     const text = "Mulutmu Harimaumu";
-    const text2 = "Aku ingin jadi macan😘";
+    const text2 = "Aku ingin jadi macankiw😘";
     return (
         <div>
             <hr/>
