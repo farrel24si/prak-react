@@ -1,20 +1,21 @@
+import { BsBasket } from "react-icons/bs";
 import { NavLink } from "react-router-dom";
 import { MdSpaceDashboard } from "react-icons/md";
 import { IoIosList } from "react-icons/io";
 import { RiCustomerServiceFill } from "react-icons/ri";
-import { FaPlus, FaCube } from "react-icons/fa"; // Tambah FaCube untuk icon components
+import { FaPlus, FaCube } from "react-icons/fa";
 
 export default function Sidebar() {
   // Fungsi styling untuk NavLink aktif
   const menuClass = ({ isActive }) =>
     `flex cursor-pointer items-center rounded-xl p-4 transition-all
-    ${isActive ?
-      "text-hijau bg-green-200 font-extrabold" :
-      "text-gray-600 hover:text-hijau hover:bg-green-200 hover:font-extrabold"
+    ${
+      isActive
+        ? "text-hijau bg-green-200 font-extrabold"
+        : "text-gray-600 hover:text-hijau hover:bg-green-200 hover:font-extrabold"
     }`;
 
   return (
-    // Perbaikan: Mengganti w-90 menjadi w-80 agar valid di Tailwind
     <div className="flex min-h-screen w-80 flex-col bg-white p-10 shadow-lg border-r border-gray-100">
       {/* Logo Section */}
       <div className="flex flex-col">
@@ -34,38 +35,52 @@ export default function Sidebar() {
               <MdSpaceDashboard className="mr-4 text-xl" /> Dashboard
             </NavLink>
           </li>
+
           <li>
             <NavLink to="/orders" className={menuClass}>
               <IoIosList className="mr-4 text-xl" /> Orders
             </NavLink>
           </li>
+
           <li>
             <NavLink to="/customers" className={menuClass}>
               <RiCustomerServiceFill className="mr-4 text-xl" /> Customers
             </NavLink>
           </li>
-          
-          {/* Menu Baru: Components */}
+
+          {/* Components */}
           <li>
             <NavLink to="/components" className={menuClass}>
               <FaCube className="mr-4 text-xl" /> Components
             </NavLink>
           </li>
 
+          {/* Products */}
+          <li>
+            <NavLink to="/product" className={menuClass}>
+              <BsBasket className="mr-4 text-xl" /> Products
+            </NavLink>
+          </li>
+
           {/* Error Pages */}
           <li>
             <NavLink to="/error-400" className={menuClass}>
-              <span className="mr-4 text-xl font-bold text-red-500">!</span> Error 400
+              <span className="mr-4 text-xl font-bold text-red-500">!</span>
+              Error 400
             </NavLink>
           </li>
+
           <li>
             <NavLink to="/error-401" className={menuClass}>
-              <span className="mr-4 text-xl font-bold text-red-500">!</span> Error 401
+              <span className="mr-4 text-xl font-bold text-red-500">!</span>
+              Error 401
             </NavLink>
           </li>
+
           <li>
             <NavLink to="/error-403" className={menuClass}>
-              <span className="mr-4 text-xl font-bold text-red-500">!</span> Error 403
+              <span className="mr-4 text-xl font-bold text-red-500">!</span>
+              Error 403
             </NavLink>
           </li>
         </ul>
@@ -78,12 +93,14 @@ export default function Sidebar() {
             <span className="block leading-snug mb-3">
               Please organize your menus through button below!
             </span>
+
             <div className="flex justify-center items-center p-2 bg-white rounded-md cursor-pointer hover:bg-gray-100 transition-colors">
               <span className="text-gray-600 flex items-center font-bold text-xs">
                 <FaPlus className="mr-2" /> Add Menus
               </span>
             </div>
           </div>
+
           <img
             className="w-16 rounded-full ml-2 object-cover border-2 border-white"
             src="/img/image11.png"
@@ -95,6 +112,7 @@ export default function Sidebar() {
           <span className="font-bold text-gray-400 block text-sm">
             Sedap Restaurant Admin Dashboard
           </span>
+
           <p className="font-light text-gray-400 text-xs">
             &copy; 2026 All Right Reserved
           </p>
