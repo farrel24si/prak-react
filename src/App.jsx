@@ -21,6 +21,7 @@ import FiturXyz from './pages/FiturXyz';
 const Dashboard = React.lazy(() => import('./pages/Dashboard'));
 const Orders = React.lazy(() => import('./pages/Orders'));
 const Customers = React.lazy(() => import('./pages/Customers'));
+const Notes = React.lazy(() => import('./pages/Notes'));
 
 // Tambahan: Halaman Components dari Modul 10
 const ComponentsPage = React.lazy(() => import('./pages/Components'));
@@ -50,6 +51,7 @@ export default function App() {
           <Route path="/orders" element={<Orders />} />
           <Route path="/customers" element={<Customers />} />
           <Route path="/fitur-xyz" element={<FiturXyz />} />
+          <Route path="/notes" element={<Notes />} />
           {/* Rute untuk Halaman Komponen (Modul 10) */}
           <Route path="/components" element={<ComponentsPage />} />
           
