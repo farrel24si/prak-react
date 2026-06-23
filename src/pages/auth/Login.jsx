@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import axios from "axios"; // Library untuk HTTP Request (Integrasi API)
+import { authAPI } from "@/services/supabaseService";
 import { BsFillExclamationDiamondFill } from "react-icons/bs";
 import { ImSpinner2 } from "react-icons/im";
 
@@ -29,33 +29,29 @@ export default function Login() {
 
     // === 3. LOGIC INTEGRASI API ===
     const handleSubmit = async (e) => {
-        e.preventDefault(); // Mencegah reload halaman saat form di-submit
+        e.preventDefault();
 
-        setLoading(true); // Mulai loading
-        setError(""); // Reset pesan error sebelumnya
+        setLoading(true);
+        setError("");
 
-        axios
-            .post("https://dummyjson.com/user/login", {
-                username: dataForm.email, // Mengirim data ke API
-                password: dataForm.password,
-            })
-            .then((response) => {
-                if (response.status === 200) {
-                    // Jika sukses, lempar user ke halaman Dashboard ("/")
-                    navigate("/");
-                }
-            })
-            .catch((err) => {
-                // Penanganan Error: Mengambil pesan dari server jika ada, jika tidak pakai pesan default
-                if (err.response) {
-                    setError(err.response.data.message || "An error occurred");
-                } else {
-                    setError("Terjadi kesalahan jaringan.");
-                }
-            })
-            .finally(() => {
-                setLoading(false); // Matikan loading baik sukses maupun gagal
-            });
+        const { data, error: authError } = await authAPI.signIn({
+            email: dataForm.email,
+            password: dataForm.password,
+        });
+
+        if (authError) {
+            setError(authError.message || "Terjadi kesalahan autentikasi.");
+            setLoading(false);
+            return;
+        }
+
+        if (data?.session) {
+            navigate("/");
+        } else {
+            setError("Login gagal. Silakan cek kembali data Anda.");
+        }
+
+        setLoading(false);
     };
 
     // === 4. CONDITIONAL RENDERING (UI LOGIC) ===
@@ -90,8 +86,8 @@ export default function Login() {
                         Email Address
                     </label>
                     <input
-                        type="text"
-                        name="email" // 'name' harus sama dengan kunci di state dataForm
+                        type="email"
+                        name="email"
                         value={dataForm.email}
                         onChange={handleChange}
                         className="w-full px-4 py-2 bg-gray-50 border border-gray-300 rounded-lg outline-none focus:ring-2 focus:ring-green-500 transition-all"
@@ -125,6 +121,18 @@ export default function Login() {
                     {loading ? "Processing..." : "Login"}
                 </button>
             </form>
+
+            {/* Link ke Register */}
+            <p className="text-center text-sm text-gray-500 mt-6">
+                Belum punya akun?{" "}
+                <button
+                    type="button"
+                    onClick={() => navigate("/register")}
+                    className="text-green-600 font-semibold hover:text-green-700 hover:underline transition-all"
+                >
+                    Daftar Sekarang
+                </button>
+            </p>
         </div>
     );
 }

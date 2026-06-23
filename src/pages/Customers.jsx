@@ -1,9 +1,24 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import PageHeader from "../components/PageHeader";
-import { customersData } from "../data/dummyData";
+import { profileAPI } from "@/services/supabaseService";
 
 export default function Customers() {
   const [showForm, setShowForm] = useState(false);
+  const [customers, setCustomers] = useState([]);
+  const [loading, setLoading] = useState(false);
+
+  const loadCustomers = async () => {
+    setLoading(true);
+    const { data, error } = await profileAPI.fetchAllProfiles();
+    if (!error && data) {
+      setCustomers(data);
+    }
+    setLoading(false);
+  };
+
+  useEffect(() => {
+    loadCustomers();
+  }, []);
 
   return (
     <div className="flex-1 overflow-y-auto bg-gray-50/50">
@@ -40,7 +55,7 @@ export default function Customers() {
           </div>
         )}
 
-        {/* Tabel Data JSON */}
+        {/* Tabel Data dari Supabase */}
         <div className="bg-white rounded-2xl shadow-sm overflow-hidden border border-gray-100">
           <table className="w-full text-left text-sm text-gray-600">
             <thead className="bg-gray-50 text-gray-800 font-bold">
@@ -48,24 +63,40 @@ export default function Customers() {
                 <th className="p-4">Customer ID</th>
                 <th className="p-4">Name</th>
                 <th className="p-4">Email</th>
-                <th className="p-4">Phone</th>
+                <th className="p-4">Role</th>
                 <th className="p-4">Loyalty</th>
+                <th className="p-4">Points</th>
               </tr>
             </thead>
             <tbody>
-              {customersData.map((cust, idx) => (
-                <tr key={idx} className="border-t border-gray-100 hover:bg-gray-50">
-                  <td className="p-4 font-semibold text-gray-800">{cust.id}</td>
-                  <td className="p-4">{cust.name}</td>
-                  <td className="p-4">{cust.email}</td>
-                  <td className="p-4">{cust.phone}</td>
-                  <td className="p-4">
-                    <span className={`px-3 py-1 rounded-full text-xs font-bold ${cust.loyalty === 'Gold' ? 'bg-kuning text-white' : cust.loyalty === 'Silver' ? 'bg-gray-300 text-gray-800' : 'bg-orange-200 text-orange-800'}`}>
-                      {cust.loyalty}
-                    </span>
-                  </td>
+              {loading ? (
+                <tr>
+                  <td colSpan="6" className="p-10 text-center text-gray-400 italic">Memuat data...</td>
                 </tr>
-              ))}
+              ) : customers.length === 0 ? (
+                <tr>
+                  <td colSpan="6" className="p-10 text-center text-gray-400 italic">Belum ada data customer.</td>
+                </tr>
+              ) : (
+                customers.map((cust, idx) => (
+                  <tr key={idx} className="border-t border-gray-100 hover:bg-gray-50">
+                    <td className="p-4 font-semibold text-gray-800">{cust.user_id?.slice(0, 8) || `USER-${idx + 1}`}</td>
+                    <td className="p-4">{cust.full_name || "—"}</td>
+                    <td className="p-4">{cust.email}</td>
+                    <td className="p-4">
+                      <span className={`px-3 py-1 rounded-full text-xs font-bold ${cust.role === 'admin' ? 'bg-purple-100 text-purple-700' : 'bg-blue-100 text-blue-700'}`}>
+                        {cust.role || "member"}
+                      </span>
+                    </td>
+                    <td className="p-4">
+                      <span className={`px-3 py-1 rounded-full text-xs font-bold ${cust.loyalty_tier === 'Gold' ? 'bg-kuning text-white' : cust.loyalty_tier === 'Silver' ? 'bg-gray-300 text-gray-800' : cust.loyalty_tier === 'Platinum' ? 'bg-indigo-200 text-indigo-800' : 'bg-orange-200 text-orange-800'}`}>
+                        {cust.loyalty_tier || "Bronze"}
+                      </span>
+                    </td>
+                    <td className="p-4 font-semibold">{cust.points ?? 0}</td>
+                  </tr>
+                ))
+              )}
             </tbody>
           </table>
         </div>

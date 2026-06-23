@@ -1,10 +1,24 @@
 import { useState } from "react";
 import { FaBell, FaSearch, FaCommentAlt, FaGift, FaHistory, FaUserCircle } from "react-icons/fa";
 import { SlSettings } from "react-icons/sl";
+import { BiLogOut } from "react-icons/bi";
+import { useAuth } from "@/context/AuthContext";
+import { useNavigate } from "react-router-dom";
 
 export default function Header() {
-  // 1. State Modal: Nilai awal FALSE (tertutup)
+  const { user, profile } = useAuth();
+  const navigate = useNavigate();
   const [isSearchOpen, setIsSearchOpen] = useState(false);
+
+  const handleLogout = async () => {
+    try {
+      const { supabase } = await import("@/lib/supabaseClient");
+      await supabase.auth.signOut();
+      navigate("/login");
+    } catch (error) {
+      console.error("Logout error:", error);
+    }
+  };
 
   return (
     <header className="flex justify-between items-center bg-white px-8 py-4 sticky top-0 z-40">
@@ -55,17 +69,42 @@ export default function Header() {
           </div>
         </div>
 
-        {/* User Profile - Samantha Farrel */}
+        {/* Tier & Poin Badge */}
+        <div className="flex items-center gap-3 border-r pr-6 border-gray-200">
+          <div className="bg-amber-50 px-3 py-1.5 rounded-xl border border-amber-200 flex items-center gap-2">
+            <span className="text-xs font-bold text-amber-700 uppercase tracking-wide">
+              {profile?.loyalty_tier || "Bronze"}
+            </span>
+          </div>
+          <div className="bg-emerald-50 px-3 py-1.5 rounded-xl border border-emerald-200 flex items-center gap-1.5">
+            <span className="text-xs font-bold text-emerald-700">{profile?.points ?? 0}</span>
+            <span className="text-[10px] text-emerald-500 font-semibold">pts</span>
+          </div>
+        </div>
+
+        {/* User Profile */}
         <div className="flex items-center gap-4 cursor-pointer group">
           <div className="text-right hidden sm:block">
             <p className="text-xs text-gray-400">Hello,</p>
-            <p className="text-sm font-bold text-gray-800 group-hover:text-hijau transition-colors">Farrel</p>
+            <p className="text-sm font-bold text-gray-800 group-hover:text-hijau transition-colors">{profile?.full_name || user?.email?.split('@')[0] || "User"}</p>
           </div>
           {/* Menggunakan Icon sebagai pengganti foto profil yang sering error */}
           <div className="w-11 h-11 bg-gray-100 rounded-full flex items-center justify-center text-gray-400 group-hover:bg-hijau-muda group-hover:text-hijau transition-all">
             <FaUserCircle className="text-3xl" />
           </div>
         </div>
+
+        {/* Logout Button */}
+        {user && (
+          <button
+            onClick={handleLogout}
+            className="ml-2 px-4 py-2 bg-red-50 text-merah rounded-lg hover:bg-red-100 transition-colors font-medium text-sm flex items-center gap-2"
+            title="Logout"
+          >
+            <BiLogOut className="text-lg" />
+            <span className="hidden sm:inline">Logout</span>
+          </button>
+        )}
       </div>
     </header>
   );

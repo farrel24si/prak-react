@@ -3,9 +3,12 @@ import { NavLink } from "react-router-dom";
 import { MdSpaceDashboard } from "react-icons/md";
 import { IoIosList } from "react-icons/io";
 import { RiCustomerServiceFill } from "react-icons/ri";
-import { FaPlus, FaCube } from "react-icons/fa";
+import { useAuth } from "@/context/AuthContext";
 
 export default function Sidebar() {
+  const { profile } = useAuth();
+  const isAdmin = profile?.role === "admin";
+
   // Fungsi styling untuk NavLink aktif
   const menuClass = ({ isActive }) =>
     `flex cursor-pointer items-center rounded-xl p-4 transition-all
@@ -23,45 +26,51 @@ export default function Sidebar() {
           Sedap<b className="text-hijau">.</b>
         </span>
         <span className="font-semibold text-gray-400">
-          Modern Admin Dashboard
+          {isAdmin ? "Admin Dashboard" : "Member Dashboard"}
         </span>
       </div>
 
-      {/* List Menu Section */}
+      {/* Main Menu Section */}
       <div className="mt-10 flex-1">
+        <p className="text-[10px] font-bold text-gray-400 uppercase tracking-widest mb-3">Main Menu</p>
         <ul className="space-y-3">
+          {/* Dashboard — semua role bisa */}
           <li>
-            <NavLink to="/" className={menuClass}>
+            <NavLink to="/" className={menuClass} end>
               <MdSpaceDashboard className="mr-4 text-xl" /> Dashboard
             </NavLink>
           </li>
 
+          {/* Orders — semua role bisa */}
           <li>
             <NavLink to="/orders" className={menuClass}>
               <IoIosList className="mr-4 text-xl" /> Orders
             </NavLink>
           </li>
 
-          <li>
-            <NavLink to="/customers" className={menuClass}>
-              <RiCustomerServiceFill className="mr-4 text-xl" /> Customers
-            </NavLink>
-          </li>
+          {/* Products — hanya admin */}
+          {isAdmin && (
+            <li>
+              <NavLink to="/product" className={menuClass}>
+                <BsBasket className="mr-4 text-xl" /> Products
+              </NavLink>
+            </li>
+          )}
 
-          {/* Components */}
-          <li>
-            <NavLink to="/components" className={menuClass}>
-              <FaCube className="mr-4 text-xl" /> Components
-            </NavLink>
-          </li>
+          {/* Customers — hanya admin */}
+          {isAdmin && (
+            <li>
+              <NavLink to="/customers" className={menuClass}>
+                <RiCustomerServiceFill className="mr-4 text-xl" /> Customers
+              </NavLink>
+            </li>
+          )}
+        </ul>
 
-          {/* Products */}
-          <li>
-            <NavLink to="/product" className={menuClass}>
-              <BsBasket className="mr-4 text-xl" /> Products
-            </NavLink>
-          </li>
-
+        {/* Separator & Menu Lainnya */}
+        <hr className="my-6 border-gray-200" />
+        <p className="text-[10px] font-bold text-gray-400 uppercase tracking-widest mb-3">Lainnya</p>
+        <ul className="space-y-3">
           <li>
             <NavLink to="/fitur-xyz" className={menuClass}>
               <BsBasket className="mr-4 text-xl" /> Fitur Xyz
@@ -72,25 +81,9 @@ export default function Sidebar() {
               <BsBasket className="mr-4 text-xl" /> Notes
             </NavLink>
           </li>
-          {/* Error Pages */}
           <li>
-            <NavLink to="/error-400" className={menuClass}>
-              <span className="mr-4 text-xl font-bold text-red-500">!</span>
-              Error 400
-            </NavLink>
-          </li>
-
-          <li>
-            <NavLink to="/error-401" className={menuClass}>
-              <span className="mr-4 text-xl font-bold text-red-500">!</span>
-              Error 401
-            </NavLink>
-          </li>
-
-          <li>
-            <NavLink to="/error-403" className={menuClass}>
-              <span className="mr-4 text-xl font-bold text-red-500">!</span>
-              Error 403
+            <NavLink to="/components" className={menuClass}>
+              <BsBasket className="mr-4 text-xl" /> Components
             </NavLink>
           </li>
         </ul>
@@ -106,7 +99,7 @@ export default function Sidebar() {
 
             <div className="flex justify-center items-center p-2 bg-white rounded-md cursor-pointer hover:bg-gray-100 transition-colors">
               <span className="text-gray-600 flex items-center font-bold text-xs">
-                <FaPlus className="mr-2" /> Add Menus
+                <BsBasket className="mr-2" /> Add Menus
               </span>
             </div>
           </div>

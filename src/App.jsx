@@ -11,6 +11,10 @@ import { Routes, Route } from 'react-router-dom';
 import MainLayout from './layouts/MainLayout'; 
 import AuthLayout from './layouts/AuthLayout'; 
 
+// Import Route Guard untuk proteksi route
+import ProtectedRoute from './components/ProtectedRoute';
+import AdminRoute from './components/AdminRoute';
+
 // Import Komponen Loading yang akan muncul saat halaman sedang di-download
 import Loading from './components/Loading';
 import FiturXyz from './pages/FiturXyz';
@@ -45,21 +49,24 @@ export default function App() {
     <Suspense fallback={<Loading />}>
       <Routes>
         
-        {/* === KONSEP NESTED ROUTES: MAIN LAYOUT === */}
-        <Route element={<MainLayout />}>
-          <Route path="/" element={<Dashboard />} />
-          <Route path="/orders" element={<Orders />} />
-          <Route path="/customers" element={<Customers />} />
-          <Route path="/fitur-xyz" element={<FiturXyz />} />
-          <Route path="/notes" element={<Notes />} />
-          {/* Rute untuk Halaman Komponen (Modul 10) */}
-          <Route path="/components" element={<ComponentsPage />} />
-          
-          {/* DAFTAR PRODUK */}
-          <Route path="/product" element={<Product />} />
-          
-          {/* DETAIL PRODUK - Samakan dengan Link di ProductsPage */}
-          <Route path="/product/:id" element={<ProductDetail />} /> 
+        {/* === KONSEP NESTED ROUTES: MAIN LAYOUT UNTUK AUTHENTIKASI (MEMBER + ADMIN) === */}
+        <Route element={<ProtectedRoute />}>
+          <Route element={<MainLayout />}>
+            <Route path="/" element={<Dashboard />} />
+            <Route path="/orders" element={<Orders />} />
+            <Route path="/fitur-xyz" element={<FiturXyz />} />
+            <Route path="/notes" element={<Notes />} />
+            <Route path="/components" element={<ComponentsPage />} />
+          </Route>
+        </Route>
+
+        {/* === KONSEP NESTED ROUTES: ADMIN ONLY (PRODUCT, CUSTOMERS) === */}
+        <Route element={<AdminRoute />}>
+          <Route element={<MainLayout />}>
+            <Route path="/product" element={<Product />} />
+            <Route path="/product/:id" element={<ProductDetail />} />
+            <Route path="/customers" element={<Customers />} />
+          </Route>
         </Route>
 
         {/* === KONSEP NESTED ROUTES: AUTH LAYOUT === */}
